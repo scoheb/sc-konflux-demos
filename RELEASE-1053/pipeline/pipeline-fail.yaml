@@ -1,0 +1,26 @@
+---
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: a-pipeline-that-fails
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: release
+spec:
+  description: Useful Pipeline that fails
+  params:
+    - name: released_version
+      type: string
+    - name: snapshot
+      type: string
+  tasks:
+    - name: fail-task
+      taskSpec:
+        steps:
+          - name: fail
+            image: alpine
+            script: |
+              echo "This task will fail"
+              exit 1
